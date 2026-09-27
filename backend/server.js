@@ -20,14 +20,12 @@ const PAYSTACK_SECRET_KEY = process.env.PAYSTACK_SECRET_KEY;
 const PAYSTACK_API = 'https://api.paystack.co';
 
 // =============================================
-// CORS
+// CORS - NEW URLS ONLY
 // =============================================
 app.use(cors({
     origin: [
-        'https://databundlesexchange-h1xf.onrender.com',
-        'https://databundlesexchange-yy38.onrender.com',
-        'https://databundlesexchange.onrender.com',
-        'https://databundlesexchange-production-6241.up.railway.app',
+        'https://databundlesexchange-hkp7.onrender.com',
+        'https://databundlesexchange-production-86f4.up.railway.app',
         'http://localhost:5500',
         'http://127.0.0.1:5500'
     ],
@@ -203,7 +201,7 @@ app.post('/api/register-vendor/init', async (req, res) => {
 
         pendingPayments[reference] = {
             type: 'vendor-registration',
-            amount: 10000, // GHC 100
+            amount: 10000,
             data: { fullName, phone, email, business, tradeType, network, dob, hometown, subscribeHDS: subscribeHDS || false },
             createdAt: Date.now()
         };
@@ -367,25 +365,13 @@ app.post('/api/paystack/webhook', async (req, res) => {
                     let telegramMessage = '';
 
                     if (pending.type === 'vendor-registration') {
-                        telegramMessage = formatVendorRegistration({
-                            ...pending.data,
-                            reference: reference
-                        });
+                        telegramMessage = formatVendorRegistration({ ...pending.data, reference: reference });
                     } else if (pending.type === 'personal-purchase') {
-                        telegramMessage = formatPersonalPurchase({
-                            ...pending.data,
-                            reference: reference
-                        });
+                        telegramMessage = formatPersonalPurchase({ ...pending.data, reference: reference });
                     } else if (pending.type === 'agent-purchase') {
-                        telegramMessage = formatPurchase({
-                            ...pending.data,
-                            reference: reference
-                        });
+                        telegramMessage = formatPurchase({ ...pending.data, reference: reference });
                     } else if (pending.type === 'recharge') {
-                        telegramMessage = formatRecharge({
-                            ...pending.data,
-                            reference: reference
-                        });
+                        telegramMessage = formatRecharge({ ...pending.data, reference: reference });
                     }
 
                     if (telegramMessage) {
