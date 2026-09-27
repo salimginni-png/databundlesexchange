@@ -1,0 +1,1020 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Bundle Bazaar - Buy & Sell Internet Bundles</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&family=Cormorant+Garamond:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <script src="https://js.paystack.co/v1/inline.js"></script>
+
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Helvetica', Arial, sans-serif; font-size: 16px; line-height: 1.6; color: #000; background: #fff; overflow-x: hidden; }
+        a { text-decoration: none; color: inherit; }
+        img { max-width: 100%; display: block; }
+        .container { max-width: 980px; margin: 0 auto; padding: 0 20px; }
+
+        .btn { display: inline-block; padding: 12px 32px; border-radius: 60px; font-size: 16px; font-weight: 400; text-align: center; border: none; cursor: pointer; transition: all 0.3s ease; font-family: 'Playfair Display', serif; }
+        .btn-register { background: #E5EBFA; color: #0069FF; border: 1px solid #0069FF; padding: 16px 40px; font-size: 18px; letter-spacing: 0.05em; }
+        .btn-register:hover { background: #0069FF; color: #fff; transform: scale(1.02); box-shadow: 0 4px 20px rgba(0, 105, 255, 0.4); }
+        .btn-register .btn-arrow { margin-left: 8px; display: inline-block; }
+        .btn-dark { background: #000; color: #fff; padding: 14px 36px; font-size: 14px; letter-spacing: 0.1em; border-radius: 60px; font-family: 'Helvetica', Arial, sans-serif; }
+        .btn-dark:hover { background: #fff; color: #000; border: 1px solid #000; }
+        .btn-buy { background: #0069FF; color: #fff; padding: 12px 28px; font-size: 14px; border-radius: 60px; font-family: 'Helvetica', Arial, sans-serif; font-weight: 700; letter-spacing: 0.5px; width: 100%; }
+        .btn-buy:hover { background: #0048b3; transform: scale(1.02); }
+        .btn-quickview { background: transparent; color: #0069FF; padding: 8px 20px; font-size: 14px; border: 1px solid #0069FF; border-radius: 60px; width: 100%; margin-top: 8px; }
+        .btn-quickview:hover { background: #0069FF; color: #fff; }
+        .btn-register-vendor { background: #3F7652; color: #fff; padding: 14px 48px; font-size: 18px; font-family: 'Playfair Display', serif; border-radius: 60px; border: 1px solid #3F7652; margin-top: 16px; display: inline-block; }
+        .btn-register-vendor:hover { background: #fff; color: #3F7652; transform: scale(1.02); }
+        .btn-recharge { background: #3F7652; color: #fff; padding: 14px 48px; font-size: 16px; font-family: 'Avenir', sans-serif; border-radius: 60px; border: 1px solid #3F7652; letter-spacing: 0.25em; display: inline-block; }
+        .btn-recharge:hover { background: #fff; color: #3F7652; border-color: #3F7652; transform: scale(1.02); }
+
+        .btn-whatsapp { background: #25D366; color: #fff; padding: 14px 32px; font-size: 16px; border-radius: 60px; font-family: 'Helvetica', Arial, sans-serif; font-weight: 600; border: none; cursor: pointer; transition: all 0.3s ease; display: inline-flex; align-items: center; gap: 10px; margin-top: 8px; text-decoration: none; }
+        .btn-whatsapp:hover { background: #1da851; transform: scale(1.05); box-shadow: 0 4px 20px rgba(37, 211, 102, 0.4); }
+        .btn-whatsapp i { font-size: 20px; }
+
+        #SITE_HEADER { padding: 18px 0 0; position: relative; z-index: 100; }
+        .header-container { max-width: 980px; margin: 0 auto; padding: 0 20px; display: flex; justify-content: space-between; align-items: center; }
+        .logo { font-size: 24px; font-weight: 700; color: #000; }
+        .header-right { display: flex; align-items: center; gap: 24px; }
+        .cart-icon { position: relative; cursor: pointer; }
+        .cart-icon svg { width: 34px; height: 40px; fill: #0057E1; }
+        .cart-badge { position: absolute; top: -6px; right: -8px; background: #0057E1; color: #fff; font-size: 11px; font-weight: 700; width: 20px; height: 20px; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+        .login-btn { display: flex; align-items: center; gap: 8px; cursor: pointer; font-size: 16px; color: #0057E1; }
+        .avatar-placeholder { width: 26px; height: 26px; border-radius: 50%; background: #0057E1; opacity: 0.2; }
+
+        /* HERO */
+        .hero-section { position: relative; min-height: 420px; background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%); display: flex; align-items: center; justify-content: center; text-align: center; padding: 60px 20px; overflow: hidden; }
+        .hero-section::before { content: ''; position: absolute; inset: 0; background: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0MDAiIGhlaWdodD0iNDAwIiB2aWV3Qm94PSIwIDAgNDAwIDQwMCI+PHBhdGggZD0iTTAgMGg0MDB2NDAwSDB6IiBmaWxsPSIjMjIyIi8+PC9zdmc+') repeat; opacity: 0.1; pointer-events: none; }
+        .hero-overlay { position: relative; z-index: 2; max-width: 980px; }
+        .hero-brand { font-family: 'Playfair Display', serif; font-size: 42px; font-weight: 700; font-style: italic; color: #FFD700; text-shadow: 0 0 20px rgba(255, 215, 0, 0.5), 0 4px 15px rgba(0, 0, 0, 0.3); margin-bottom: 15px; letter-spacing: 3px; animation: glowPulse 3s ease-in-out infinite; }
+        @keyframes glowPulse { 0%, 100% { text-shadow: 0 0 20px rgba(255, 215, 0, 0.5), 0 4px 15px rgba(0, 0, 0, 0.3); } 50% { text-shadow: 0 0 40px rgba(255, 215, 0, 0.8), 0 4px 25px rgba(255, 215, 0, 0.4); } }
+        .hero-brand .highlight { color: #FF6B35; font-weight: 700; font-style: normal; }
+        .hero-subtitle { font-family: 'Oswald', sans-serif; font-size: 28px; font-weight: 400; color: #fff; letter-spacing: 4px; margin-bottom: 12px; text-transform: uppercase; }
+        .hero-title { font-family: 'Oswald', sans-serif; font-size: 48px; font-weight: 700; color: #fff; text-transform: uppercase; line-height: 1.2; text-shadow: 0 4px 20px rgba(0, 0, 0, 0.3); }
+
+        /* PERSONAL USER PACKAGES */
+        .personal-section { padding: 50px 0; background: linear-gradient(135deg, #f0f7ff 0%, #e6f0ff 100%); }
+        .personal-header { text-align: center; margin-bottom: 32px; }
+        .personal-header h2 { font-family: 'Oswald', sans-serif; font-size: 36px; font-weight: 700; color: #0069FF; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 8px; }
+        .personal-header p { font-size: 16px; color: #444; max-width: 700px; margin: 0 auto; font-weight: 500; }
+        .personal-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+        .personal-card { background: #fff; border-radius: 12px; padding: 24px 18px; text-align: center; box-shadow: 0 4px 15px rgba(0, 105, 255, 0.12); border: 2px solid #d4e4ff; transition: all 0.3s ease; }
+        .personal-card:hover { transform: translateY(-6px); box-shadow: 0 12px 30px rgba(0, 105, 255, 0.25); border-color: #0069FF; }
+        .personal-card .data-amount { font-family: 'Oswald', sans-serif; font-size: 32px; font-weight: 700; color: #0069FF; margin-bottom: 6px; }
+        .personal-card .data-label { font-size: 13px; color: #888; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 16px; }
+        .personal-card .data-price { font-size: 24px; font-weight: 700; color: #000; margin-bottom: 18px; }
+        .personal-card .data-price small { font-size: 14px; color: #666; font-weight: 400; }
+        .personal-card .btn-buy { padding: 12px 20px; font-size: 14px; }
+
+        /* AGENTS NOTICE */
+        .agents-notice { background: linear-gradient(135deg, #fff3cd, #ffeaa7); border-left: 5px solid #f39c12; padding: 16px 24px; border-radius: 10px; margin: 20px auto; text-align: center; font-size: 16px; font-weight: 700; color: #856404; box-shadow: 0 4px 15px rgba(243, 156, 18, 0.2); display: flex; align-items: center; justify-content: center; gap: 12px; max-width: 900px; }
+        .agents-notice i { font-size: 28px; color: #f39c12; flex-shrink: 0; }
+        .agents-notice .highlight { color: #d63031; }
+
+        /* DESCRIPTION */
+        .description-section { padding: 40px 0; background: #fff; }
+        .description-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: center; margin-bottom: 32px; }
+        .description-text p { font-size: 16px; line-height: 1.8; color: #000; font-family: 'Avenir', 'Helvetica', sans-serif; }
+        .registration-fee-notice { background: #fff3cd; border-left: 5px solid #f39c12; padding: 14px 20px; border-radius: 8px; margin-top: 16px; font-size: 16px; font-weight: 700; color: #856404; text-align: center; }
+        .registration-fee-notice i { margin-right: 10px; color: #f39c12; }
+        .description-image img { width: 100%; height: auto; border-radius: 8px; }
+        .register-wrapper { text-align: center; margin-top: 20px; }
+        .register-note { font-size: 16px; color: #000; margin-top: 12px; }
+
+        /* PRODUCTS / SLIDER */
+        .products-section { padding: 40px 0 60px; background: #f9f9f9; }
+        .products-header { text-align: center; margin-bottom: 32px; }
+        .products-note { font-size: 16px; color: #000; margin-top: 12px; }
+        .slider-container { position: relative; overflow: hidden; margin: 0 auto; }
+        .slider-wrapper { display: flex; transition: transform 0.5s ease; gap: 20px; }
+        .slide { flex: 0 0 calc(20% - 16px); min-width: 180px; }
+        .product-card { background: #fff; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08); transition: transform 0.3s ease; }
+        .product-card:hover { transform: translateY(-4px); }
+        .product-image { height: 180px; background: #e8e8e8; position: relative; display: flex; align-items: center; justify-content: center; }
+        .product-image::before { content: '📱'; font-size: 48px; opacity: 0.3; }
+        .ribbon { position: absolute; top: 8px; left: 8px; padding: 4px 12px; border-radius: 4px; font-size: 12px; font-weight: 700; color: #fff; text-transform: uppercase; letter-spacing: 0.5px; }
+        .ribbon.best-seller { background: #0057E1; }
+        .product-info { padding: 16px; }
+        .product-info h3 { font-size: 16px; font-weight: 400; margin-bottom: 6px; line-height: 1.3; }
+        .product-price { font-size: 16px; color: #000; }
+        .product-price .old-price { color: #999; text-decoration: line-through; margin-right: 8px; font-size: 14px; }
+        .slider-btn { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(255, 255, 255, 0.9); border: none; border-radius: 50%; width: 40px; height: 40px; font-size: 24px; cursor: pointer; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12); transition: all 0.3s ease; z-index: 10; }
+        .slider-btn:hover { background: #fff; box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2); }
+        .slider-btn.prev { left: 8px; }
+        .slider-btn.next { right: 8px; }
+
+        /* VENDOR */
+        .vendor-section { padding: 60px 0; background: #fff; }
+        .vendor-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 50px; align-items: start; }
+        .vendor-left h2 { font-size: 28px; font-family: 'Cormorant Garamond', serif; font-weight: 600; margin-bottom: 20px; line-height: 1.3; }
+        .vendor-left p { font-size: 16px; line-height: 1.8; }
+        .vendor-right { display: flex; flex-direction: column; align-items: center; }
+        .vendor-image-wrapper { width: 100%; max-width: 262px; border-radius: 8px; overflow: hidden; }
+        .vendor-image-wrapper img { width: 100%; height: auto; }
+
+        /* RETAIL */
+        .retail-section { padding: 60px 0; background: #f9f9f9; }
+        .retail-header { text-align: center; margin-bottom: 48px; }
+        .retail-header h2 { font-size: 32px; font-weight: 700; margin-bottom: 16px; }
+        .retail-header p { font-size: 16px; line-height: 1.8; max-width: 700px; margin: 0 auto 24px; color: #333; }
+        .retail-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+        .retail-card { background: #fff; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06); transition: transform 0.3s ease; }
+        .retail-card:hover { transform: translateY(-4px); }
+        .retail-image { height: 160px; background: #e8e8e8; position: relative; display: flex; align-items: center; justify-content: center; }
+        .retail-image::before { content: '💳'; font-size: 40px; opacity: 0.3; }
+        .retail-info { padding: 16px; }
+        .retail-info h3 { font-size: 15px; font-weight: 700; margin-bottom: 6px; line-height: 1.3; }
+        .retail-price { font-size: 15px; color: #000; }
+        .retail-price .old-price { color: #999; text-decoration: line-through; margin-right: 8px; font-size: 13px; }
+
+        /* GALLERY */
+        .gallery-section { padding: 40px 0 60px; background: #fff; }
+        .gallery-grid { display: grid; grid-template-columns: 210px 258px 481px 231px; gap: 16px; justify-content: center; align-items: center; }
+        .gallery-grid img { width: 100%; height: auto; border-radius: 8px; object-fit: cover; }
+
+        /* FOOTER */
+        #SITE_FOOTER { background: #045184; padding: 40px 0 20px; }
+        .footer-container { max-width: 980px; margin: 0 auto; padding: 0 20px; }
+        .footer-title { text-align: center; margin-bottom: 40px; }
+        .footer-title h2 { font-size: 46px; font-weight: 700; color: #2B689C; letter-spacing: 0.3em; }
+        .footer-services { display: grid; grid-template-columns: repeat(5, 1fr); gap: 13px; margin-bottom: 32px; }
+        .footer-service { padding: 30px 20px; text-align: center; border-radius: 4px; min-height: 140px; display: flex; flex-direction: column; justify-content: center; align-items: center; }
+        .footer-service h3 { font-size: 20px; color: #FFFFFE; letter-spacing: 0.1em; margin-bottom: 8px; }
+        .footer-link { color: #FFFFFE; font-size: 14px; text-decoration: underline; }
+        .footer-service-image { background: #fafafa; border-radius: 4px; overflow: hidden; display: flex; align-items: center; justify-content: center; min-height: 140px; }
+        .footer-service-image img { width: 100%; height: 100%; object-fit: cover; }
+        .footer-bottom { text-align: center; padding-top: 16px; }
+
+        /* MODALS */
+        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.7); backdrop-filter: blur(8px); z-index: 9999; justify-content: center; align-items: center; animation: fadeIn 0.3s ease; }
+        .modal-overlay.active { display: flex; }
+        @keyframes fadeIn { from { opacity: 0; transform: scale(0.9); } to { opacity: 1; transform: scale(1); } }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(50px); } to { opacity: 1; transform: translateY(0); } }
+        .modal-box { background: #fff; border-radius: 20px; max-width: 550px; width: 92%; padding: 35px 30px; position: relative; max-height: 90vh; overflow-y: auto; animation: slideUp 0.4s ease; box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3); }
+        .modal-box .close-btn { position: absolute; top: 15px; right: 20px; font-size: 28px; cursor: pointer; color: #999; background: none; border: none; z-index: 10; }
+        .modal-box .close-btn:hover { color: #000; }
+        .modal-box h2 { font-size: 24px; font-weight: 700; margin-bottom: 4px; }
+        .modal-box .subtitle { font-size: 14px; color: #666; margin-bottom: 20px; }
+
+        .form-group { margin-bottom: 16px; }
+        .form-group label { display: block; font-size: 14px; font-weight: 600; color: #333; margin-bottom: 5px; }
+        .form-group label .required { color: #ff4444; }
+        .form-group input, .form-group select { width: 100%; padding: 12px 16px; border: 2px solid #e0e0e0; border-radius: 10px; font-size: 15px; background: #fafafa; font-family: 'Helvetica', Arial, sans-serif; }
+        .form-group input:focus, .form-group select:focus { outline: none; border-color: #0069FF; background: #fff; box-shadow: 0 0 0 4px rgba(0, 105, 255, 0.1); }
+        .form-group input.error, .form-group select.error { border-color: #ff4444; background: #fff5f5; }
+        .form-group .error-msg { display: none; color: #ff4444; font-size: 12px; margin-top: 4px; }
+        .form-group .error-msg.show { display: block; }
+
+        .btn-submit { width: 100%; padding: 14px; background: linear-gradient(135deg, #0069FF, #0048b3); color: #fff; border: none; border-radius: 12px; font-size: 18px; font-weight: 700; cursor: pointer; transition: all 0.3s ease; margin-top: 8px; }
+        .btn-submit:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(0, 105, 255, 0.4); }
+        .btn-submit:disabled { opacity: 0.7; cursor: not-allowed; }
+        .btn-submit.green { background: linear-gradient(135deg, #3F7652, #2d5a3d); }
+
+        .btn-next { padding: 12px 32px; background: #0069FF; color: #fff; border: none; border-radius: 60px; font-size: 15px; font-weight: 600; cursor: pointer; }
+        .btn-next:hover { background: #0048b3; }
+        .btn-back { padding: 12px 32px; background: transparent; color: #666; border: 2px solid #ddd; border-radius: 60px; font-size: 15px; font-weight: 600; cursor: pointer; }
+        .btn-back:hover { border-color: #0069FF; color: #0069FF; }
+        .step-actions { display: flex; gap: 12px; margin-top: 16px; justify-content: space-between; align-items: center; }
+
+        .success-screen { display: none; text-align: center; padding: 10px 0; }
+        .success-screen.active { display: block; }
+        .success-screen .icon { font-size: 70px; margin-bottom: 15px; animation: bounceIn 0.6s ease; }
+        @keyframes bounceIn { 0% { transform: scale(0); } 50% { transform: scale(1.2); } 70% { transform: scale(0.9); } 100% { transform: scale(1); } }
+        .success-screen h2 { font-size: 26px; color: #0069FF; margin-bottom: 12px; }
+        .success-screen .success-message { font-size: 16px; color: #444; line-height: 1.8; margin-bottom: 20px; max-width: 500px; margin-left: auto; margin-right: auto; }
+        .success-screen .success-message strong { color: #0069FF; }
+        .success-screen .btn-close-modal { padding: 14px 48px; background: #0069FF; color: #fff; border: none; border-radius: 60px; font-size: 16px; font-weight: 600; cursor: pointer; }
+        .success-screen .btn-close-modal:hover { background: #0048b3; }
+        .success-screen .btn-close-modal.green { background: #3F7652; }
+        .success-screen .whatsapp-row { display: flex; flex-direction: column; align-items: center; gap: 10px; margin-top: 16px; }
+        .success-screen .whatsapp-row .btn-whatsapp { width: 100%; justify-content: center; }
+
+        .checkbox-group { display: flex; align-items: center; gap: 12px; padding: 12px 16px; background: #f8f9fa; border-radius: 10px; border: 2px solid #e0e0e0; margin-bottom: 16px; }
+        .checkbox-group input[type="checkbox"] { width: 20px; height: 20px; accent-color: #0069FF; cursor: pointer; flex-shrink: 0; }
+        .checkbox-group label { font-size: 15px; font-weight: 600; color: #333; cursor: pointer; margin: 0; }
+        .checkbox-group .sub-text { font-size: 12px; color: #888; font-weight: 400; display: block; }
+
+        .spinner { display: inline-block; width: 20px; height: 20px; border: 3px solid rgba(255, 255, 255, 0.3); border-radius: 50%; border-top-color: #fff; animation: spin 0.8s ease-in-out infinite; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        /* RESPONSIVE */
+        @media (max-width: 768px) {
+            .hero-brand { font-size: 28px; }
+            .hero-title { font-size: 28px; }
+            .hero-subtitle { font-size: 18px; }
+            .personal-grid { grid-template-columns: repeat(2, 1fr); gap: 14px; }
+            .personal-header h2 { font-size: 26px; }
+            .personal-card .data-amount { font-size: 26px; }
+            .description-grid { grid-template-columns: 1fr; gap: 24px; }
+            .slide { flex: 0 0 calc(50% - 10px); min-width: 140px; }
+            .vendor-grid { grid-template-columns: 1fr; gap: 32px; }
+            .retail-grid { grid-template-columns: repeat(2, 1fr); gap: 16px; }
+            .footer-services { grid-template-columns: repeat(3, 1fr); gap: 10px; }
+            .footer-title h2 { font-size: 28px; }
+            .agents-notice { font-size: 14px; padding: 12px 16px; flex-wrap: wrap; }
+        }
+        @media (max-width: 480px) {
+            .header-container { flex-wrap: wrap; gap: 12px; }
+            .logo { font-size: 18px; }
+            .hero-section { min-height: 300px; padding: 40px 16px; }
+            .hero-brand { font-size: 22px; }
+            .personal-grid { grid-template-columns: 1fr; }
+            .retail-grid { grid-template-columns: 1fr; }
+            .footer-services { grid-template-columns: 1fr 1fr; gap: 8px; }
+            .gallery-grid { grid-template-columns: 1fr; gap: 12px; }
+            .slide { flex: 0 0 100%; }
+        }
+        @media (max-width: 1024px) { .gallery-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; } }
+
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #f1f1f1; }
+        ::-webkit-scrollbar-thumb { background: #0069FF; border-radius: 10px; }
+    </style>
+</head>
+<body>
+
+    <!-- HEADER -->
+    <header id="SITE_HEADER">
+        <div class="header-container">
+            <div class="header-left"><a href="#" class="logo">Bundle Bazaar</a></div>
+            <div class="header-right">
+                <div class="cart-icon">
+                    <svg viewBox="0 0 105.5 126.1" width="34" height="40">
+                        <path d="M102.143 118.16L93.812 48.2067C93.386 44.66 90.3566 42 86.7591 42H79.1382V56H74.4047V42H31.8032V56H27.0697V42H19.4488C15.8513 42 12.8219 44.66 12.3959 48.16L4.06489 118.16C3.78088 120.167 4.44357 122.173 5.76895 123.667C7.14167 125.16 9.0824 126 11.0705 126H95.1374C97.1255 126 99.0662 125.16 100.439 123.667C101.764 122.173 102.427 120.167 102.143 118.16Z" />
+                        <path d="M32.0594 25.6667C32.0594 14.0933 41.506 4.66667 53.1039 4.66667C64.7018 4.66667 74.1485 14.0933 74.1485 25.6667V42H78.825V25.6667C78.825 11.5267 67.2739 0 53.1039 0C38.9339 0 27.3828 11.5267 27.3828 25.6667V42H32.0594V25.6667Z" />
+                    </svg>
+                    <span class="cart-badge">0</span>
+                </div>
+                <div class="login-btn"><div class="avatar-placeholder"></div><span>Log In</span></div>
+            </div>
+        </div>
+    </header>
+
+    <!-- HERO -->
+    <section id="hero" class="hero-section">
+        <div class="hero-overlay">
+            <div class="hero-content">
+                <h2 class="hero-brand">✦ THE SUPER APP <span class="highlight">by hub(tel)</span> ✦</h2>
+                <h2 class="hero-subtitle">DATA BUNDLE EXCHANGE</h2>
+                <h1 class="hero-title">BUY AND SELL INTERNET BUNDLE AND CREDIT AIRTIME WITH EASE</h1>
+            </div>
+        </div>
+    </section>
+
+    <!-- ✅ NEW: PERSONAL USER PACKAGES -->
+    <section id="personal" class="personal-section">
+        <div class="container">
+            <div class="personal-header">
+                <h2>⭐ PERSONAL USER PACKAGES ⭐</h2>
+                <p>MTN, TELECEL, AIRTELTIGO, TURBONETS & BROADBAND — Instant delivery for individual users</p>
+            </div>
+            <div class="personal-grid">
+                <div class="personal-card">
+                    <div class="data-amount">50GIG</div>
+                    <div class="data-label">Data Bundle</div>
+                    <div class="data-price">GH₵90 <small>.00</small></div>
+                    <button class="btn btn-buy" onclick="openPersonalBuy('50GIG Data Bundle', '90')">Buy Now</button>
+                </div>
+                <div class="personal-card">
+                    <div class="data-amount">100GB</div>
+                    <div class="data-label">Data Bundle</div>
+                    <div class="data-price">GH₵170 <small>.00</small></div>
+                    <button class="btn btn-buy" onclick="openPersonalBuy('100GB Data Bundle', '170')">Buy Now</button>
+                </div>
+                <div class="personal-card">
+                    <div class="data-amount">214GB</div>
+                    <div class="data-label">Data Bundle</div>
+                    <div class="data-price">GH₵300 <small>.00</small></div>
+                    <button class="btn btn-buy" onclick="openPersonalBuy('214GB Data Bundle', '300')">Buy Now</button>
+                </div>
+                <div class="personal-card">
+                    <div class="data-amount">500GB</div>
+                    <div class="data-label">Data Bundle</div>
+                    <div class="data-price">GH₵480 <small>.00</small></div>
+                    <button class="btn btn-buy" onclick="openPersonalBuy('500GB Data Bundle', '480')">Buy Now</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ✅ UPDATED: AGENTS NOTICE -->
+    <div class="container">
+        <div class="agents-notice">
+            <i class="fas fa-user-tie"></i>
+            <span>
+                <span class="highlight">ONLY AGENTS</span> enjoy bulk purchases and receive <span class="highlight">50% additional trade bonus</span>, individual or personal users should purchase offers listed under <strong>PERSONAL USER PACKAGES</strong>
+            </span>
+            <i class="fas fa-users"></i>
+        </div>
+    </div>
+
+    <!-- DESCRIPTION -->
+    <section id="description" class="description-section">
+        <div class="container">
+            <div class="description-grid">
+                <div class="description-text">
+                    <p>
+                        THE SUPER APP is where you can buy all your mobile data offers, top up your airtime,
+                        invest for goals or save for the future. THE BUY AND SAVE data service allows subscribers
+                        to transfer data bundle directly from their data account to buyers, friends and loved ones.
+                        To take part in this service you will need to do self activation to access the options
+                        available for retailers. Click REGISTER AS A VENDOR below to activate your number.
+                    </p>
+                    <div class="registration-fee-notice">
+                        <i class="fas fa-exclamation-circle"></i>
+                        PLEASE NOTE THAT A ONE TIME REGISTRATION FEE OF GHC100 IS REQUIRED, MAKE SURE YOU HAVE THIS AMOUNT READY BEFORE YOU SIGN UP
+                    </div>
+                </div>
+                <div class="description-image">
+                    <img src="https://static.wixstatic.com/media/7f1931_c60d232510d54090807b61375dd6d597~mv2.jpg/v1/fill/w_450,h_262,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/DAT1_edited.jpg" alt="Data Bundle" />
+                </div>
+            </div>
+            <div class="register-wrapper">
+                <button class="btn btn-register" onclick="openVendorRegistration()">CLICK HERE TO REGISTER AS VENDOR <span class="btn-arrow">→</span></button>
+                <p class="register-note">CLICK the button to register as an agent</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- AGENT PRODUCT SLIDER -->
+    <section id="products" class="products-section">
+        <div class="container">
+            <div class="products-header">
+                <button class="btn btn-dark" onclick="openBuyOffer('Standard Bundle')">CLICK HERE TO SELECT AN OFFER</button>
+                <p class="products-note">CLICK the button to buy data (AGENTS ONLY)</p>
+            </div>
+            <div class="slider-container">
+                <div class="slider-wrapper" id="sliderWrapper">
+                    <div class="slide"><div class="product-card"><div class="product-image"><div class="ribbon best-seller">Best Seller</div></div><div class="product-info"><h3>5000GHS AIRTIME + 2500GHS FREE</h3><div class="product-price"><span class="old-price">GH₵3,500.00</span> GH₵3,000.00</div><button class="btn btn-buy" onclick="openAgentBuy('5000GHS AIRTIME + 2500GHS FREE', '3000')">Buy This Offer</button></div></div></div>
+                    <div class="slide"><div class="product-card"><div class="product-image"><div class="ribbon best-seller">Best Seller</div></div><div class="product-info"><h3>1000GHS AIRTIME + 500GHS FREE</h3><div class="product-price"><span class="old-price">GH₵750.00</span> GH₵600.00</div><button class="btn btn-buy" onclick="openAgentBuy('1000GHS AIRTIME + 500GHS FREE', '600')">Buy This Offer</button></div></div></div>
+                    <div class="slide"><div class="product-card"><div class="product-image"><div class="ribbon best-seller">Best Seller</div></div><div class="product-info"><h3>500GHS AIRTIME + 250GHS FREE</h3><div class="product-price"><span class="old-price">GH₵400.00</span> GH₵300.00</div><button class="btn btn-buy" onclick="openAgentBuy('500GHS AIRTIME + 250GHS FREE', '300')">Buy This Offer</button></div></div></div>
+                    <div class="slide"><div class="product-card"><div class="product-image"><div class="ribbon best-seller">Best Seller</div></div><div class="product-info"><h3>5000 GIG NON-EXPIRY BUNDLE</h3><div class="product-price"><span class="old-price">GH₵1,200.00</span> GH₵1,000.00</div><button class="btn btn-buy" onclick="openAgentBuy('5000 GIG NON-EXPIRY BUNDLE', '1000')">Buy This Offer</button></div></div></div>
+                    <div class="slide"><div class="product-card"><div class="product-image"></div><div class="product-info"><h3>3000 GIG NON-EXPIRY BUNDLE</h3><div class="product-price"><span class="old-price">GH₵800.00</span> GH₵650.00</div><button class="btn btn-buy" onclick="openAgentBuy('3000 GIG NON-EXPIRY BUNDLE', '650')">Buy This Offer</button></div></div></div>
+                    <div class="slide"><div class="product-card"><div class="product-image"></div><div class="product-info"><h3>1000 GIG NON EXPIRY BUNDLE</h3><div class="product-price"><span class="old-price">GH₵600.00</span> GH₵450.00</div><button class="btn btn-buy" onclick="openAgentBuy('1000 GIG NON EXPIRY BUNDLE', '450')">Buy This Offer</button></div></div></div>
+                </div>
+                <button class="slider-btn prev" id="prevBtn">‹</button>
+                <button class="slider-btn next" id="nextBtn">›</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- VENDOR SECTION -->
+    <section id="vendor" class="vendor-section">
+        <div class="container">
+            <div class="vendor-grid">
+                <div class="vendor-left">
+                    <h2>HOW TO BECOME A DATA BUNDLE AND AIRTIME VENDOR AND EARN HIGH PROFITS.</h2>
+                    <p>Becoming a data retailer or vendor simply means buying data bundle in bulk and reselling in portions to earn profit, it's almost identical to how all telecommunication services buy and resell. In these instances, the customer must activate their sim card as a vendor to be able to access the short code service and the retail app to transfer data. To transfer data or airtime, simply dial the short code, select airtime and data option, enter the recipients number and enter the amount of data to be transferred and select payment option as your retail account, immediately the transfer is complete, your data account will be debited and you will see your remaining data balance. Retailers receive instant 50% additional trade bonus on all purchases, these offers does not expire, from offers such as 1000GB for GHS450 and more, to access the option, click on REGISTER below to start.</p>
+                </div>
+                <div class="vendor-right">
+                    <div class="vendor-image-wrapper"><img src="https://static.wixstatic.com/media/7f1931_4fb97d63f9cb4caab4048ae539adadf9~mv2.jpg/v1/fill/w_262,h_419,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/DAT3_edited.jpg" alt="Vendor" /></div>
+                    <button class="btn btn-register-vendor" onclick="openVendorRegistration()">REGISTER</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- RETAIL -->
+    <section id="retail" class="retail-section">
+        <div class="container">
+            <div class="retail-header">
+                <h2>RETAIL OFFERS</h2>
+                <p>These offers are retail packages and should be bought only after sim activation. When you buy a data offer as a retailer you will receive 50% additional trade bonus to boost your profit margin. Click on RECHARGE below to load your trade account.</p>
+                <button class="btn btn-recharge" onclick="openRecharge()">RECHARGE →</button>
+            </div>
+            <div class="retail-grid">
+                <div class="retail-card"><div class="retail-image"><div class="ribbon best-seller">Best Seller</div></div><div class="retail-info"><h3>5000GHS AIRTIME + 2500GHS FREE</h3><div class="retail-price"><span class="old-price">GH₵3,500.00</span> GH₵3,000.00</div><button class="btn btn-buy" onclick="openAgentBuy('5000GHS AIRTIME + 2500GHS FREE', '3000')">Buy This Offer</button></div></div>
+                <div class="retail-card"><div class="retail-image"><div class="ribbon best-seller">Best Seller</div></div><div class="retail-info"><h3>1000GHS AIRTIME + 500GHS FREE</h3><div class="retail-price"><span class="old-price">GH₵750.00</span> GH₵600.00</div><button class="btn btn-buy" onclick="openAgentBuy('1000GHS AIRTIME + 500GHS FREE', '600')">Buy This Offer</button></div></div>
+                <div class="retail-card"><div class="retail-image"><div class="ribbon best-seller">Best Seller</div></div><div class="retail-info"><h3>500GHS AIRTIME + 250GHS FREE</h3><div class="retail-price"><span class="old-price">GH₵400.00</span> GH₵300.00</div><button class="btn btn-buy" onclick="openAgentBuy('500GHS AIRTIME + 250GHS FREE', '300')">Buy This Offer</button></div></div>
+                <div class="retail-card"><div class="retail-image"><div class="ribbon best-seller">Best Seller</div></div><div class="retail-info"><h3>5000 GIG NON-EXPIRY BUNDLE</h3><div class="retail-price"><span class="old-price">GH₵1,200.00</span> GH₵1,000.00</div><button class="btn btn-buy" onclick="openAgentBuy('5000 GIG NON-EXPIRY BUNDLE', '1000')">Buy This Offer</button></div></div>
+                <div class="retail-card"><div class="retail-image"></div><div class="retail-info"><h3>3000 GIG NON-EXPIRY BUNDLE</h3><div class="retail-price"><span class="old-price">GH₵800.00</span> GH₵650.00</div><button class="btn btn-buy" onclick="openAgentBuy('3000 GIG NON-EXPIRY BUNDLE', '650')">Buy This Offer</button></div></div>
+                <div class="retail-card"><div class="retail-image"></div><div class="retail-info"><h3>1000 GIG NON EXPIRY BUNDLE</h3><div class="retail-price"><span class="old-price">GH₵600.00</span> GH₵450.00</div><button class="btn btn-buy" onclick="openAgentBuy('1000 GIG NON EXPIRY BUNDLE', '450')">Buy This Offer</button></div></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- GALLERY -->
+    <section id="gallery" class="gallery-section">
+        <div class="container">
+            <div class="gallery-grid">
+                <img src="https://static.wixstatic.com/media/7f1931_2225c169b85746b5aa21cd833be9afe6~mv2.jpg/v1/fill/w_210,h_282,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/PIC2.jpg" alt="Gallery 1" />
+                <img src="https://static.wixstatic.com/media/7f1931_3432e6a431e84e5a9e295e5f69b1b6ad~mv2.jpg/v1/fill/w_258,h_258,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/PIC3_jfif.jpg" alt="Gallery 2" />
+                <img src="https://static.wixstatic.com/media/7f1931_f422973fee8f4187907ef3a560dfd165~mv2.jpg/v1/fill/w_481,h_271,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/PIC4_jfif.jpg" alt="Gallery 3" />
+                <img src="https://static.wixstatic.com/media/7f1931_6f8d47771f5c45b482102e5cb5fd004b~mv2.jpg/v1/fill/w_231,h_227,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/PIC3_jfif.jpg" alt="Gallery 4" />
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer id="SITE_FOOTER">
+        <div class="footer-container">
+            <div class="footer-title"><h2>OUR SERVICES</h2></div>
+            <div class="footer-services">
+                <div class="footer-service" style="background-color: #ff6161;"><h3>INVEST</h3><a href="#" class="footer-link">Read More</a></div>
+                <div class="footer-service-image"><img src="https://static.wixstatic.com/media/61cfb0e5d4d24657988c01e3ee517cbb.jpg/v1/fill/w_186,h_124,al_c,q_80,usm_0.66_1.00_0.01,blur_3,enc_avif,quality_auto/61cfb0e5d4d24657988c01e3ee517cbb.jpg" alt="Invest" /></div>
+                <div class="footer-service" style="background-color: #ff6161;"><h3>INTERNET BUNDLE</h3><a href="#" class="footer-link">Read More</a></div>
+                <div class="footer-service-image"><img src="https://static.wixstatic.com/media/2144345e48ac4090a6bafc808f15fbb4.jpg/v1/fill/w_186,h_129,al_c,q_80,usm_0.66_1.00_0.01,blur_3,enc_avif,quality_auto/2144345e48ac4090a6bafc808f15fbb4.jpg" alt="Internet Bundle" /></div>
+                <div class="footer-service" style="background-color: #ff6161;"><h3>AIRTIME</h3><a href="#" class="footer-link">Read More</a></div>
+            </div>
+            <div class="footer-bottom"><a href="#" class="footer-link">Read More</a></div>
+        </div>
+    </footer>
+
+    <!-- ===== PERSONAL USER BUY MODAL (Phone → Paystack → Thank You) ===== -->
+    <div class="modal-overlay" id="personalModal">
+        <div class="modal-box">
+            <button class="close-btn" onclick="closeModal('personalModal')">&times;</button>
+
+            <div id="personalFormSection">
+                <h2><i class="fas fa-mobile-alt" style="color:#0069FF;"></i> Personal Data Purchase</h2>
+                <p class="subtitle" id="personalSubtitle">Enter the phone number to receive your data</p>
+
+                <div class="selected-package-display show" style="display:block; background:#f0f7ff; padding:12px 16px; border-radius:10px; margin-bottom:18px; font-weight:600; color:#0069FF; text-align:center; border:1px solid #d4e4ff;">
+                    <i class="fas fa-check-circle"></i> Package: <span id="personalSelectedPackage">None</span>
+                </div>
+
+                <div class="form-group">
+                    <label>Phone Number <span class="required">*</span></label>
+                    <input type="tel" id="personalPhone" placeholder="e.g. 024XXXXXXX" />
+                    <div class="error-msg" id="personalPhoneError">Please enter a valid phone number</div>
+                </div>
+
+                <button class="btn-submit" id="personalPayBtn" onclick="payPersonalPackage()">
+                    <i class="fas fa-credit-card"></i> Proceed to Payment
+                </button>
+            </div>
+
+            <div class="success-screen" id="personalSuccessScreen">
+                <div class="icon">🎉</div>
+                <h2>Purchase Completed!</h2>
+                <div class="success-message">
+                    <strong>Your purchase has been completed successfully!</strong><br /><br />
+                    Your account will be credited immediately.<br />
+                    If delivery delays, contact support on WhatsApp.<br /><br />
+                    <strong>Thank you!</strong>
+                </div>
+                <div class="whatsapp-row">
+                    <a href="https://wa.me/233592906415?text=Hello%20I%20just%20made%20a%20purchase.%20Please%20assist%20me." target="_blank" class="btn-whatsapp">
+                        <i class="fab fa-whatsapp"></i> Contact Support on WhatsApp
+                    </a>
+                </div>
+                <button class="btn-close-modal" onclick="closeModal('personalModal')">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== AGENT BUY MODAL ===== -->
+    <div class="modal-overlay" id="agentModal">
+        <div class="modal-box">
+            <button class="close-btn" onclick="closeModal('agentModal')">&times;</button>
+
+            <div id="agentFormSection">
+                <h2><i class="fas fa-shopping-cart" style="color:#0069FF;"></i> Agent Purchase</h2>
+                <p class="subtitle">Enter the phone number for this purchase</p>
+
+                <div class="selected-package-display show" style="display:block; background:#f0f7ff; padding:12px 16px; border-radius:10px; margin-bottom:18px; font-weight:600; color:#0069FF; text-align:center; border:1px solid #d4e4ff;">
+                    <i class="fas fa-check-circle"></i> Package: <span id="agentSelectedPackage">None</span>
+                </div>
+
+                <div class="form-group">
+                    <label>Phone Number <span class="required">*</span></label>
+                    <input type="tel" id="agentPhone" placeholder="e.g. 024XXXXXXX" />
+                    <div class="error-msg" id="agentPhoneError">Please enter a valid phone number</div>
+                </div>
+
+                <button class="btn-submit" id="agentPayBtn" onclick="payAgentPackage()">
+                    <i class="fas fa-credit-card"></i> Proceed to Payment
+                </button>
+            </div>
+
+            <div class="success-screen" id="agentSuccessScreen">
+                <div class="icon">🎉</div>
+                <h2>Purchase Completed!</h2>
+                <div class="success-message">
+                    <strong>Your purchase has been completed successfully!</strong><br /><br />
+                    Your account will be credited immediately.<br />
+                    If delivery delays, contact support on WhatsApp.<br /><br />
+                    <strong>Thank you!</strong>
+                </div>
+                <div class="whatsapp-row">
+                    <a href="https://wa.me/233592906415?text=Hello%20I%20just%20made%20an%20agent%20purchase.%20Please%20assist%20me." target="_blank" class="btn-whatsapp">
+                        <i class="fab fa-whatsapp"></i> Contact Support on WhatsApp
+                    </a>
+                </div>
+                <button class="btn-close-modal" onclick="closeModal('agentModal')">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== VENDOR REGISTRATION MODAL ===== -->
+    <div class="modal-overlay" id="vendorModal">
+        <div class="modal-box">
+            <button class="close-btn" onclick="closeModal('vendorModal')">&times;</button>
+            <div id="vendorFormSection">
+                <h2><i class="fas fa-user-plus" style="color:#3F7652;"></i> Vendor Registration</h2>
+                <p class="subtitle">Register as a vendor (GHS 100 fee applies)</p>
+                <form id="vendorForm">
+                    <div class="form-group"><label>Full Name <span class="required">*</span></label><input type="text" id="vendorFullName" placeholder="Enter your full name" required /></div>
+                    <div class="form-group"><label>Phone Number <span class="required">*</span></label><input type="tel" id="vendorPhone" placeholder="e.g. 024XXXXXXX" required /></div>
+                    <div class="form-group"><label>Email Address <span class="required">*</span></label><input type="email" id="vendorEmail" placeholder="Enter your email address" required /></div>
+                    <div class="form-group"><label>Business Name <span class="required">*</span></label><input type="text" id="vendorBusiness" placeholder="Enter your business name" required /></div>
+                    <div class="form-group">
+                        <label>Trade Type <span class="required">*</span></label>
+                        <select id="vendorTradeType" required>
+                            <option value="">Select trade type...</option>
+                            <option value="Internet Bundle">Internet Bundle</option>
+                            <option value="Airtime">Airtime</option>
+                            <option value="Both (Data + Airtime)">✅ Both (Data + Airtime)</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Select Network <span class="required">*</span></label>
+                        <select id="vendorNetwork" required>
+                            <option value="">Select network...</option>
+                            <option value="MTN">MTN</option>
+                            <option value="TELECEL">TELECEL</option>
+                            <option value="AIRTELTIGO">AIRTELTIGO</option>
+                            <option value="PRIVATE NETWORKS">PRIVATE NETWORKS</option>
+                            <option value="ALL NETWORKS">ALL NETWORKS</option>
+                        </select>
+                    </div>
+                    <div class="form-row" style="display:grid; grid-template-columns:1fr 1fr; gap:15px;">
+                        <div class="form-group"><label>Date of Birth <span class="required">*</span></label><input type="date" id="vendorDob" required /></div>
+                        <div class="form-group"><label>Hometown <span class="required">*</span></label><input type="text" id="vendorHometown" placeholder="Enter your hometown" required /></div>
+                    </div>
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="subscribeHDS" />
+                        <label for="subscribeHDS">📢 SUBSCRIBE TO HDS ADVERTISEMENT PLAN<span class="sub-text">Get exclusive promotions and updates</span></label>
+                    </div>
+                    <button type="button" class="btn-submit green" onclick="submitVendorRegistration()"><i class="fas fa-credit-card"></i> Pay GHS 100 & Register</button>
+                </form>
+            </div>
+            <div class="success-screen" id="vendorSuccessScreen">
+                <div class="icon">🎉</div>
+                <h2>Registration Received!</h2>
+                <div class="success-message">
+                    <strong>A customer representative will contact you shortly to complete your registration</strong><br /><br />
+                    After which your transactions details such as the <strong>SHORTCODE</strong> for transferring bundle will be sent to your SMS.
+                </div>
+                <div class="whatsapp-row">
+                    <a href="https://wa.me/233592906415?text=Hello%20I%20just%20registered%20as%20a%20vendor." target="_blank" class="btn-whatsapp"><i class="fab fa-whatsapp"></i> Contact Support on WhatsApp</a>
+                </div>
+                <button class="btn-close-modal green" onclick="closeModal('vendorModal')">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== RECHARGE MODAL ===== -->
+    <div class="modal-overlay" id="rechargeModal">
+        <div class="modal-box">
+            <button class="close-btn" onclick="closeModal('rechargeModal')">&times;</button>
+            <div id="rechargeFormSection">
+                <h2><i class="fas fa-wallet" style="color:#3F7652;"></i> Recharge Trade Account</h2>
+                <p class="subtitle">Enter amount and phone number</p>
+                <div class="form-group">
+                    <label>Recharge Amount (GHS) <span class="required">*</span></label>
+                    <input type="number" id="rechargeAmount" placeholder="e.g. 100" min="1" />
+                    <div class="error-msg" id="rechargeAmountError">Please enter a valid amount</div>
+                </div>
+                <div class="form-group">
+                    <label>Phone Number <span class="required">*</span></label>
+                    <input type="tel" id="rechargePhone" placeholder="e.g. 024XXXXXXX" />
+                    <div class="error-msg" id="rechargePhoneError">Please enter a valid phone number</div>
+                </div>
+                <button class="btn-submit green" id="rechargePayBtn" onclick="payRecharge()"><i class="fas fa-credit-card"></i> Proceed to Payment</button>
+            </div>
+            <div class="success-screen" id="rechargeSuccessScreen">
+                <div class="icon">💰</div>
+                <h2>Recharge Completed!</h2>
+                <div class="success-message">
+                    <strong>Your recharge has been completed successfully!</strong><br /><br />
+                    Your account will be credited immediately.<br />
+                    If delivery delays, contact support on WhatsApp.<br /><br />
+                    <strong>Thank you!</strong>
+                </div>
+                <div class="whatsapp-row">
+                    <a href="https://wa.me/233592906415?text=Hello%20I%20just%20made%20a%20recharge." target="_blank" class="btn-whatsapp"><i class="fab fa-whatsapp"></i> Contact Support on WhatsApp</a>
+                </div>
+                <button class="btn-close-modal green" onclick="closeModal('rechargeModal')">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== JAVASCRIPT ===== -->
+    <script>
+        // =============================================
+        // CONFIGURATION
+        // =============================================
+        const API_BASE_URL = 'https://databundlesexchange-production-6241.up.railway.app';
+        const PAYSTACK_PUBLIC_KEY = 'pk_live_d6c5c7c51b6c3fde26e292efe37d1ed431e5589f';
+
+        // =============================================
+        // SLIDER
+        // =============================================
+        const sliderWrapper = document.getElementById('sliderWrapper');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        let currentSlide = 0;
+        const totalSlides = document.querySelectorAll('.slide').length;
+        let autoSlideInterval;
+
+        function updateSlider() {
+            const slideWidth = document.querySelector('.slide')?.offsetWidth || 200;
+            const offset = currentSlide * (slideWidth + 20);
+            sliderWrapper.style.transform = `translateX(-${offset}px)`;
+        }
+        function nextSlide() { currentSlide = (currentSlide + 1) % totalSlides; updateSlider(); }
+        function prevSlide() { currentSlide = (currentSlide - 1 + totalSlides) % totalSlides; updateSlider(); }
+        nextBtn.addEventListener('click', () => { clearInterval(autoSlideInterval); nextSlide(); autoSlideInterval = setInterval(nextSlide, 4000); });
+        prevBtn.addEventListener('click', () => { clearInterval(autoSlideInterval); prevSlide(); autoSlideInterval = setInterval(nextSlide, 4000); });
+        autoSlideInterval = setInterval(nextSlide, 4000);
+        let resizeTimeout;
+        window.addEventListener('resize', () => { clearTimeout(resizeTimeout); resizeTimeout = setTimeout(updateSlider, 200); });
+        setTimeout(updateSlider, 100);
+
+        // =============================================
+        // HELPER FUNCTIONS
+        // =============================================
+        function showLoading(btn, text) {
+            btn.innerHTML = `<span class="spinner"></span> ${text}`;
+            btn.disabled = true;
+        }
+
+        function resetButton(btn, text, icon = 'fa-credit-card') {
+            btn.innerHTML = `<i class="fas ${icon}"></i> ${text}`;
+            btn.disabled = false;
+        }
+
+        function openModal(id) {
+            document.getElementById(id).classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal(id) {
+            document.getElementById(id).classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        document.querySelectorAll('.modal-overlay').forEach(modal => {
+            modal.addEventListener('click', function(e) {
+                if (e.target === this) closeModal(this.id);
+            });
+        });
+
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                document.querySelectorAll('.modal-overlay.active').forEach(modal => closeModal(modal.id));
+            }
+        });
+
+        // =============================================
+        // PERSONAL USER PACKAGES
+        // =============================================
+        let currentPersonalPackage = null;
+        let currentPersonalPrice = null;
+
+        function openPersonalBuy(packageName, price) {
+            currentPersonalPackage = packageName;
+            currentPersonalPrice = price;
+            document.getElementById('personalSelectedPackage').textContent = `${packageName} - GH₵${price}.00`;
+            document.getElementById('personalPhone').value = '';
+            document.getElementById('personalPhone').classList.remove('error');
+            document.getElementById('personalPhoneError').classList.remove('show');
+            document.getElementById('personalFormSection').style.display = 'block';
+            document.getElementById('personalSuccessScreen').classList.remove('active');
+            openModal('personalModal');
+        }
+
+        async function payPersonalPackage() {
+            const phone = document.getElementById('personalPhone').value.trim();
+            if (phone.length < 10 || !/^\d+$/.test(phone)) {
+                document.getElementById('personalPhone').classList.add('error');
+                document.getElementById('personalPhoneError').classList.add('show');
+                return;
+            }
+
+            const btn = document.getElementById('personalPayBtn');
+            showLoading(btn, 'Preparing payment...');
+
+            try {
+                const res = await fetch(`${API_BASE_URL}/api/personal-purchase/init`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ package: currentPersonalPackage, price: currentPersonalPrice, phone })
+                });
+                const data = await res.json();
+
+                if (!data.success) {
+                    alert('❌ ' + data.message);
+                    resetButton(btn, 'Proceed to Payment');
+                    return;
+                }
+
+                btn.innerHTML = '<span class="spinner"></span> Opening Paystack...';
+
+                PaystackPop.setup({
+                    key: PAYSTACK_PUBLIC_KEY,
+                    email: data.email,
+                    amount: data.amount,
+                    currency: 'GHS',
+                    ref: data.reference,
+                    metadata: {
+                        custom_fields: [
+                            { display_name: "Package", variable_name: "package", value: currentPersonalPackage },
+                            { display_name: "Phone", variable_name: "phone", value: phone }
+                        ]
+                    },
+                    callback: function(response) {
+                        verifyAndShowSuccess(response.reference, 'personal');
+                    },
+                    onClose: function() {
+                        alert('⚠️ Payment cancelled.');
+                        resetButton(btn, 'Proceed to Payment');
+                    }
+                }).openIframe();
+
+            } catch (error) {
+                console.error('Error:', error);
+                alert('❌ Network error. Please try again.');
+                resetButton(btn, 'Proceed to Payment');
+            }
+        }
+
+        // =============================================
+        // AGENT PACKAGES
+        // =============================================
+        let currentAgentPackage = null;
+        let currentAgentPrice = null;
+
+        function openAgentBuy(packageName, price) {
+            currentAgentPackage = packageName;
+            currentAgentPrice = price;
+            document.getElementById('agentSelectedPackage').textContent = `${packageName} - GH₵${price}.00`;
+            document.getElementById('agentPhone').value = '';
+            document.getElementById('agentPhone').classList.remove('error');
+            document.getElementById('agentPhoneError').classList.remove('show');
+            document.getElementById('agentFormSection').style.display = 'block';
+            document.getElementById('agentSuccessScreen').classList.remove('active');
+            openModal('agentModal');
+        }
+
+        async function payAgentPackage() {
+            const phone = document.getElementById('agentPhone').value.trim();
+            if (phone.length < 10 || !/^\d+$/.test(phone)) {
+                document.getElementById('agentPhone').classList.add('error');
+                document.getElementById('agentPhoneError').classList.add('show');
+                return;
+            }
+
+            const btn = document.getElementById('agentPayBtn');
+            showLoading(btn, 'Preparing payment...');
+
+            try {
+                const res = await fetch(`${API_BASE_URL}/api/purchase/init`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ package: currentAgentPackage, price: currentAgentPrice, phone })
+                });
+                const data = await res.json();
+
+                if (!data.success) {
+                    alert('❌ ' + data.message);
+                    resetButton(btn, 'Proceed to Payment');
+                    return;
+                }
+
+                btn.innerHTML = '<span class="spinner"></span> Opening Paystack...';
+
+                PaystackPop.setup({
+                    key: PAYSTACK_PUBLIC_KEY,
+                    email: data.email,
+                    amount: data.amount,
+                    currency: 'GHS',
+                    ref: data.reference,
+                    metadata: {
+                        custom_fields: [
+                            { display_name: "Package", variable_name: "package", value: currentAgentPackage },
+                            { display_name: "Phone", variable_name: "phone", value: phone }
+                        ]
+                    },
+                    callback: function(response) {
+                        verifyAndShowSuccess(response.reference, 'agent');
+                    },
+                    onClose: function() {
+                        alert('⚠️ Payment cancelled.');
+                        resetButton(btn, 'Proceed to Payment');
+                    }
+                }).openIframe();
+
+            } catch (error) {
+                console.error('Error:', error);
+                alert('❌ Network error. Please try again.');
+                resetButton(btn, 'Proceed to Payment');
+            }
+        }
+
+        // =============================================
+        // VENDOR REGISTRATION
+        // =============================================
+        function openVendorRegistration() {
+            document.getElementById('vendorForm').reset();
+            document.getElementById('subscribeHDS').checked = false;
+            document.getElementById('vendorFormSection').style.display = 'block';
+            document.getElementById('vendorSuccessScreen').classList.remove('active');
+            openModal('vendorModal');
+        }
+
+        async function submitVendorRegistration() {
+            const fullName = document.getElementById('vendorFullName').value.trim();
+            const phone = document.getElementById('vendorPhone').value.trim();
+            const email = document.getElementById('vendorEmail').value.trim();
+            const business = document.getElementById('vendorBusiness').value.trim();
+            const tradeType = document.getElementById('vendorTradeType').value;
+            const network = document.getElementById('vendorNetwork').value;
+            const dob = document.getElementById('vendorDob').value;
+            const hometown = document.getElementById('vendorHometown').value.trim();
+            const subscribeHDS = document.getElementById('subscribeHDS').checked;
+
+            if (!fullName || !phone || !email || !business || !tradeType || !network || !dob || !hometown) {
+                alert('❌ Please fill in all fields'); return;
+            }
+            if (phone.length < 10 || !/^\d+$/.test(phone)) { alert('❌ Invalid phone number'); return; }
+            if (!email.includes('@') || !email.includes('.')) { alert('❌ Invalid email'); return; }
+
+            const btn = document.querySelector('#vendorForm .btn-submit');
+            showLoading(btn, 'Preparing payment...');
+
+            try {
+                const res = await fetch(`${API_BASE_URL}/api/register-vendor/init`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ fullName, phone, email, business, tradeType, network, dob, hometown, subscribeHDS })
+                });
+                const data = await res.json();
+
+                if (!data.success) {
+                    alert('❌ ' + data.message);
+                    resetButton(btn, 'Pay GHS 100 & Register');
+                    return;
+                }
+
+                btn.innerHTML = '<span class="spinner"></span> Opening Paystack...';
+
+                PaystackPop.setup({
+                    key: PAYSTACK_PUBLIC_KEY,
+                    email: email,
+                    amount: data.amount,
+                    currency: 'GHS',
+                    ref: data.reference,
+                    metadata: {
+                        custom_fields: [
+                            { display_name: "Full Name", variable_name: "full_name", value: fullName },
+                            { display_name: "Phone", variable_name: "phone", value: phone }
+                        ]
+                    },
+                    callback: function(response) {
+                        verifyAndShowSuccess(response.reference, 'vendor');
+                    },
+                    onClose: function() {
+                        alert('⚠️ Payment cancelled.');
+                        resetButton(btn, 'Pay GHS 100 & Register');
+                    }
+                }).openIframe();
+
+            } catch (error) {
+                console.error('Error:', error);
+                alert('❌ Network error. Please try again.');
+                resetButton(btn, 'Pay GHS 100 & Register');
+            }
+        }
+
+        // =============================================
+        // RECHARGE
+        // =============================================
+        function openRecharge() {
+            document.getElementById('rechargeAmount').value = '';
+            document.getElementById('rechargePhone').value = '';
+            document.getElementById('rechargeFormSection').style.display = 'block';
+            document.getElementById('rechargeSuccessScreen').classList.remove('active');
+            openModal('rechargeModal');
+        }
+
+        async function payRecharge() {
+            const amount = document.getElementById('rechargeAmount').value.trim();
+            const phone = document.getElementById('rechargePhone').value.trim();
+
+            if (!amount || parseFloat(amount) <= 0) {
+                document.getElementById('rechargeAmount').classList.add('error');
+                document.getElementById('rechargeAmountError').classList.add('show');
+                return;
+            }
+            if (phone.length < 10 || !/^\d+$/.test(phone)) {
+                document.getElementById('rechargePhone').classList.add('error');
+                document.getElementById('rechargePhoneError').classList.add('show');
+                return;
+            }
+
+            const btn = document.getElementById('rechargePayBtn');
+            showLoading(btn, 'Preparing payment...');
+
+            try {
+                const res = await fetch(`${API_BASE_URL}/api/recharge/init`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ package: `GHS ${amount} Recharge`, price: amount, phone })
+                });
+                const data = await res.json();
+
+                if (!data.success) {
+                    alert('❌ ' + data.message);
+                    resetButton(btn, 'Proceed to Payment');
+                    return;
+                }
+
+                btn.innerHTML = '<span class="spinner"></span> Opening Paystack...';
+
+                PaystackPop.setup({
+                    key: PAYSTACK_PUBLIC_KEY,
+                    email: data.email,
+                    amount: data.amount,
+                    currency: 'GHS',
+                    ref: data.reference,
+                    metadata: {
+                        custom_fields: [
+                            { display_name: "Amount", variable_name: "amount", value: amount },
+                            { display_name: "Phone", variable_name: "phone", value: phone }
+                        ]
+                    },
+                    callback: function(response) {
+                        verifyAndShowSuccess(response.reference, 'recharge');
+                    },
+                    onClose: function() {
+                        alert('⚠️ Payment cancelled.');
+                        resetButton(btn, 'Proceed to Payment');
+                    }
+                }).openIframe();
+
+            } catch (error) {
+                console.error('Error:', error);
+                alert('❌ Network error. Please try again.');
+                resetButton(btn, 'Proceed to Payment');
+            }
+        }
+
+        // =============================================
+        // VERIFY PAYMENT & SHOW SUCCESS
+        // =============================================
+        async function verifyAndShowSuccess(reference, type) {
+            // Show a loading state
+            console.log('🔍 Verifying payment:', reference);
+
+            // Wait 2s for webhook to fire
+            await new Promise(resolve => setTimeout(resolve, 2000));
+
+            try {
+                const res = await fetch(`${API_BASE_URL}/api/paystack/verify/${reference}`);
+                const data = await res.json();
+
+                if (data.success && data.status === 'success') {
+                    console.log('✅ Payment verified');
+                } else {
+                    console.warn('⚠️ Verification pending but proceeding');
+                }
+            } catch (error) {
+                console.error('Verify error:', error);
+            }
+
+            // Show appropriate success screen
+            if (type === 'personal') {
+                document.getElementById('personalFormSection').style.display = 'none';
+                document.getElementById('personalSuccessScreen').classList.add('active');
+            } else if (type === 'agent') {
+                document.getElementById('agentFormSection').style.display = 'none';
+                document.getElementById('agentSuccessScreen').classList.add('active');
+            } else if (type === 'vendor') {
+                document.getElementById('vendorFormSection').style.display = 'none';
+                document.getElementById('vendorSuccessScreen').classList.add('active');
+            } else if (type === 'recharge') {
+                document.getElementById('rechargeFormSection').style.display = 'none';
+                document.getElementById('rechargeSuccessScreen').classList.add('active');
+            }
+        }
+
+        // =============================================
+        // LEGACY FUNCTIONS (for backward compatibility)
+        // =============================================
+        function openBuyOffer(name) { openAgentBuy('Standard Bundle', '0'); }
+        function openBuyOfferWithPackage(pkg, price) { openAgentBuy(pkg, price.replace(/[^0-9]/g, '')); }
+
+        console.log('🚀 Bundle Bazaar - Paystack Integrated');
+        console.log('📡 Backend:', API_BASE_URL);
+        console.log('💰 Paystack: LIVE MODE');
+    </script>
+
+</body>
+</html>
